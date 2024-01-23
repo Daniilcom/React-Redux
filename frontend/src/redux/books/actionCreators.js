@@ -6,3 +6,10 @@ export const addBook = (newBook) => {
     payload: newBook,
   }
 }
+
+export const dltBook = (id) => {
+  return {
+    type: a.DLT_BOOK,
+    payload: id,
+  }
+}
