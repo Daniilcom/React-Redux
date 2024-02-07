@@ -2,12 +2,16 @@ import React from 'react'
 import { BsBookmarkStarFill, BsBookmarkStar } from 'react-icons/bs'
 import { useSelector, useDispatch } from 'react-redux'
 import { dltBook, toggleFavorite } from '../../redux/books/actionCreators'
-import { selectTitleFilter } from '../../redux/slices/filterSlice'
+import {
+  selectTitleFilter,
+  selectAuthorFilter,
+} from '../../redux/slices/filterSlice'
 import './BookList.css'
 
 const BookList = () => {
   const books = useSelector((state) => state.books)
   const titleFilter = useSelector(selectTitleFilter)
+  const authorFilter = useSelector(selectAuthorFilter)
   const dispatch = useDispatch()
 
   const handleDelete = (id) => {
@@ -18,11 +22,14 @@ const BookList = () => {
     dispatch(toggleFavorite(id))
   }
 
-  const flteredBooks = books.filter((book) => {
+  const filteredBooks = books.filter((book) => {
+    const matchesAuthor = book.author
+      .toLowerCase()
+      .includes(authorFilter.toLowerCase())
     const matchesTitle = book.title
       .toLowerCase()
       .includes(titleFilter.toLowerCase())
-    return matchesTitle
+    return matchesAuthor && matchesTitle
   })
 
   return (
@@ -32,7 +39,7 @@ const BookList = () => {
         <p>No books available</p>
       ) : (
         <ul>
-          {flteredBooks.map((book, i) => (
+          {filteredBooks.map((book, i) => (
             <li key={book.id}>
               <div className="book-info">
                 {++i}. {book.title} by <strong>{book.author}</strong>
