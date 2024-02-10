@@ -1,6 +1,6 @@
 import { React, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { addBook } from '../../redux/books/actionCreators'
+import { useDispatch, useSelector } from 'react-redux'
+import { addBook, selectBooks } from '../../redux/slices/bookSlice'
 import booksData from '../../data/books.json'
 import { createBookWithId } from '../../utils/createBookWithId'
 import './BookForm.css'
@@ -9,6 +9,7 @@ const BookForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const dispatch = useDispatch()
+  const books = useSelector(selectBooks)
 
   const handleAddRandomBook = () => {
     const randomIndex = Math.floor(Math.random() * booksData.length)
